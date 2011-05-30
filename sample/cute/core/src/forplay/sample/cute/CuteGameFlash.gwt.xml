@@ -16,10 +16,10 @@
 <module rename-to='cutegameflash'>
   <inherits name='forplay.ForPlayFlash'/>
 
-  <source path='core'/>
-  <source path='flash'/>
+<!--   <source path='core'/> -->
+<!--   <source path='flash'/> -->
 
   <public path="resources" />
 
-  <entry-point class='forplay.sample.cute.flash.CuteGameFlash'/>
+<!--   <entry-point class='forplay.sample.cute.flash.CuteGameFlash'/> -->
 </module>

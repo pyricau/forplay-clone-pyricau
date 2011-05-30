@@ -18,6 +18,6 @@
 <module>
   <inherits name='forplay.ForPlay'/>
   <inherits name='com.google.gwt.jas.Jas' /> 
-  <source path='flash'/>
-  <public path='flash/as'/>
+<!--   <source path='flash'/> -->
+<!--   <public path='flash/as'/> -->
 </module>

@@ -16,8 +16,8 @@
 <module rename-to='hellogameflash'>
   <inherits name='forplay.ForPlayFlash'/>
 
-  <source path='core'/>
-  <source path='flash'/>
+<!--   <source path='core'/> -->
+<!--   <source path='flash'/> -->
 
   <public path="resources" />
 
