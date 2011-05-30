@@ -15,14 +15,10 @@
  */
 package forplay.sample.hello.core;
 
+import static forplay.core.ForPlay.*;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import forplay.core.ForPlay;
-
-import forplay.core.Mouse;
-
-import static forplay.core.ForPlay.*;
 
 import forplay.core.Game;
 import forplay.core.GroupLayer;
@@ -31,57 +27,60 @@ import forplay.core.ImageLayer;
 import forplay.core.Pointer;
 
 public class HelloGame implements Game, Pointer.Listener {
-  GroupLayer peaLayer;
-  List<Pea> peas = new ArrayList<Pea>(0);
 
-  @Override
-  public void init() {
-    // create and add background image layer
-    Image bgImage = assetManager().getImage("images/bg.png");
-    ImageLayer bgLayer = graphics().createImageLayer(bgImage);
-    graphics().rootLayer().add(bgLayer);
+    GroupLayer peaLayer;
+    List<Pea> peas = new ArrayList<Pea>(0);
 
-    // create a group layer to hold the peas
-    peaLayer = graphics().createGroupLayer();
-    graphics().rootLayer().add(peaLayer);
+    @Override
+    public void init() {
+        // create and add background image layer
+        Image bgImage = assetManager().getImage("images/bg.png");
+        ImageLayer bgLayer = graphics().createImageLayer(bgImage);
+        graphics().rootLayer().add(bgLayer);
 
-    // preload the pea image into the asset manager cache
-    assetManager().getImage(Pea.IMAGE);
+        // create a group layer to hold the peas
+        peaLayer = graphics().createGroupLayer();
+        graphics().rootLayer().add(peaLayer);
 
-    // add a listener for pointer (mouse, touch) input
-    pointer().setListener(this);
-  }
+        // preload the pea image into the asset manager cache
+        assetManager().getImage(Pea.IMAGE);
 
-  @Override
-  public void onPointerDrag(float x, float y) {
-  }
-
-  @Override
-  public void onPointerEnd(float x, float y) {
-    Pea pea = new Pea(peaLayer, x, y);
-    peas.add(pea);
-  }
-
-  @Override
-  public void onPointerStart(float x, float y) {
-  }
-
-  @Override
-  public void paint(float alpha) {
-    // layers automatically paint themselves (and their children). The rootlayer
-    // will paint itself, the background, and the pea group layer automatically
-    // so no need to do anything here!
-  }
-
-  @Override
-  public void update(float delta) {
-    for (Pea pea : peas) {
-      pea.update(delta);
+        // add a listener for pointer (mouse, touch) input
+        pointer().setListener(this);
     }
-  }
 
-  @Override
-  public int updateRate() {
-    return 25;
-  }
+    @Override
+    public void onPointerDrag(float x, float y) {
+    }
+
+    @Override
+    public void onPointerEnd(float x, float y) {
+        Pea pea = new Pea(peaLayer, x, y);
+        peas.add(pea);
+    }
+
+    @Override
+    public void onPointerStart(float x, float y) {
+    }
+
+    @Override
+    public void paint(float alpha) {
+        // layers automatically paint themselves (and their children). The
+        // rootlayer
+        // will paint itself, the background, and the pea group layer
+        // automatically
+        // so no need to do anything here!
+    }
+
+    @Override
+    public void update(float delta) {
+        for (Pea pea : peas) {
+            pea.update(delta);
+        }
+    }
+
+    @Override
+    public int updateRate() {
+        return 25;
+    }
 }

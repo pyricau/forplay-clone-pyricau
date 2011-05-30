@@ -16,41 +16,42 @@
 package forplay.sample.hello.core;
 
 import static forplay.core.ForPlay.*;
-
 import forplay.core.GroupLayer;
 import forplay.core.Image;
 import forplay.core.ImageLayer;
 import forplay.core.ResourceCallback;
 
 public class Pea {
-  public static String IMAGE = "images/pea.png";
-  private ImageLayer layer;
-  private float angle;
 
-  public Pea(final GroupLayer peaLayer, final float x, final float y) {
-    Image image = assetManager().getImage(IMAGE);
-    layer = graphics().createImageLayer(image);
+    public static String IMAGE = "images/pea.png";
+    private ImageLayer layer;
+    private float angle;
 
-    // Add a callback for when the image loads.
-    // This is necessary because we can't use the width/height (to center the
-    // image) until after the image has been loaded
-    image.addCallback(new ResourceCallback<Image>() {
-      @Override
-      public void done(Image image) {
-        layer.setOrigin(image.width() / 2f, image.height() / 2f);
-        layer.setTranslation(x, y);
-        peaLayer.add(layer);
-      }
+    public Pea(final GroupLayer peaLayer, final float x, final float y) {
+        Image image = assetManager().getImage(IMAGE);
+        layer = graphics().createImageLayer(image);
 
-      @Override
-      public void error(Throwable err) {
-        log().error("Error loading image!", err);
-      }
-    });
-  }
+        // Add a callback for when the image loads.
+        // This is necessary because we can't use the width/height (to center
+        // the
+        // image) until after the image has been loaded
+        image.addCallback(new ResourceCallback<Image>() {
+            @Override
+            public void done(Image image) {
+                layer.setOrigin(image.width() / 2f, image.height() / 2f);
+                layer.setTranslation(x, y);
+                peaLayer.add(layer);
+            }
 
-  public void update(float delta) {
-    angle += delta;
-    layer.setRotation(angle);
-  }
+            @Override
+            public void error(Throwable err) {
+                log().error("Error loading image!", err);
+            }
+        });
+    }
+
+    public void update(float delta) {
+        angle += delta;
+        layer.setRotation(angle);
+    }
 }
