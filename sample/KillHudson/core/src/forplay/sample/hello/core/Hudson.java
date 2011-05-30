@@ -21,13 +21,13 @@ import forplay.core.Image;
 import forplay.core.ImageLayer;
 import forplay.core.ResourceCallback;
 
-public class Pea {
+public class Hudson {
 
-    public static String IMAGE = "images/pea.png";
+    public static String IMAGE = "images/hudson.png";
     private ImageLayer layer;
     private float angle;
 
-    public Pea(final GroupLayer peaLayer, final float x, final float y) {
+    public Hudson(final GroupLayer peaLayer, final float x, final float y) {
         Image image = assetManager().getImage(IMAGE);
         layer = graphics().createImageLayer(image);
 
@@ -51,7 +51,7 @@ public class Pea {
     }
 
     public void update(float delta) {
-        angle += delta;
-        layer.setRotation(angle);
+//        angle += delta;
+//        layer.setRotation(angle);
     }
 }

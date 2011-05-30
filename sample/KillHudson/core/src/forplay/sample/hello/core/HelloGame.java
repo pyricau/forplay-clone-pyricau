@@ -28,8 +28,8 @@ import forplay.core.Pointer;
 
 public class HelloGame implements Game, Pointer.Listener {
 
-    GroupLayer peaLayer;
-    List<Pea> peas = new ArrayList<Pea>(0);
+    private GroupLayer hudsonLayer;
+    private List<Hudson> hudsons = new ArrayList<Hudson>(0);
 
     @Override
     public void init() {
@@ -38,12 +38,12 @@ public class HelloGame implements Game, Pointer.Listener {
         ImageLayer bgLayer = graphics().createImageLayer(bgImage);
         graphics().rootLayer().add(bgLayer);
 
-        // create a group layer to hold the peas
-        peaLayer = graphics().createGroupLayer();
-        graphics().rootLayer().add(peaLayer);
+        // create a group layer to hold the hudsons
+        hudsonLayer = graphics().createGroupLayer();
+        graphics().rootLayer().add(hudsonLayer);
 
         // preload the pea image into the asset manager cache
-        assetManager().getImage(Pea.IMAGE);
+        assetManager().getImage(Hudson.IMAGE);
 
         // add a listener for pointer (mouse, touch) input
         pointer().setListener(this);
@@ -55,8 +55,8 @@ public class HelloGame implements Game, Pointer.Listener {
 
     @Override
     public void onPointerEnd(float x, float y) {
-        Pea pea = new Pea(peaLayer, x, y);
-        peas.add(pea);
+        Hudson hudson = new Hudson(hudsonLayer, x, y);
+        hudsons.add(hudson);
     }
 
     @Override
@@ -64,23 +64,18 @@ public class HelloGame implements Game, Pointer.Listener {
     }
 
     @Override
-    public void paint(float alpha) {
-        // layers automatically paint themselves (and their children). The
-        // rootlayer
-        // will paint itself, the background, and the pea group layer
-        // automatically
-        // so no need to do anything here!
-    }
-
-    @Override
     public void update(float delta) {
-        for (Pea pea : peas) {
-            pea.update(delta);
+        for (Hudson hudson : hudsons) {
+            hudson.update(delta);
         }
     }
 
     @Override
     public int updateRate() {
         return 25;
+    }
+
+    @Override
+    public void paint(float alpha) {
     }
 }
