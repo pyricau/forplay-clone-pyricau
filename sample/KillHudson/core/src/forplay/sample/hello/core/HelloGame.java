@@ -26,8 +26,11 @@ import forplay.core.Image;
 import forplay.core.ImageLayer;
 import forplay.core.Pointer;
 import forplay.core.ResourceCallback;
+import forplay.core.Touch;
+import forplay.core.Touch.Listener;
+import forplay.core.Touch.TouchEvent;
 
-public class HelloGame implements Game, Pointer.Listener {
+public class HelloGame implements Game, Pointer.Listener, Listener {
 
     GroupLayer hudsonLayer;
     List<Hudson> hudsons = new ArrayList<Hudson>(0);
@@ -79,7 +82,15 @@ public class HelloGame implements Game, Pointer.Listener {
         });
 
         // add a listener for pointer (mouse, touch) input
-        pointer().setListener(this);
+        Pointer pointer = pointer();
+
+        if (pointer != null)
+            pointer.setListener(this);
+
+        Touch touch = touch();
+        if (touch != null) {
+            touch.setListener(this);
+        }
     }
 
     @Override
@@ -109,14 +120,14 @@ public class HelloGame implements Game, Pointer.Listener {
         double currentTime = currentTime();
 
         int maxTime = 500 - 10 * hudsonKilled;
-        
+
         maxTime = Math.max(maxTime, 50);
 
         if (currentTime - lastSpawnTime > maxTime) {
             int timeToLive = 2000 - 20 * hudsonKilled;
-            
+
             timeToLive = Math.max(timeToLive, 200);
-            
+
             lastSpawnTime = currentTime;
 
             Hudson hudson = new Hudson(this, (random() * maxHudsonX) + hudsonXTranslation, (random() * maxHudsonY) + hudsonYTranslation, timeToLive);
@@ -152,5 +163,26 @@ public class HelloGame implements Game, Pointer.Listener {
 
     public void hudsonRemove(Hudson hudson) {
         hudsonsToRemove.add(hudson);
+    }
+
+    @Override
+    public void onTouchStart(TouchEvent[] touches) {
+
+    }
+
+    @Override
+    public void onTouchMove(TouchEvent[] touches) {
+
+    }
+
+    @Override
+    public void onTouchEnd(TouchEvent[] touches) {
+        for (TouchEvent touch : touches) {
+            for (Hudson hudson : hudsons) {
+                if (hudson.killed(touch.x(), touch.y())) {
+                    hudsonKilled++;
+                }
+            }
+        }
     }
 }

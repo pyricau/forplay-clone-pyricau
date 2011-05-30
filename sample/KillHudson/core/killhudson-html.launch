@@ -14,7 +14,7 @@
 </listAttribute>
 <stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="com.google.gwt.eclipse.core.moduleClasspathProvider"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="com.google.gwt.dev.DevMode"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-startupUrl HelloGame.html -war &quot;${project_loc:/hello}/war&quot; -remoteUI &quot;${gwt_remote_ui_server_port}:${unique_id}&quot; -logLevel INFO -codeServerPort 9997 -port 8888 forplay.sample.hello.HelloGame"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-server com.google.appengine.tools.development.gwt.AppEngineLauncher -startupUrl HelloGame.html -war &quot;${project_loc:/hello}/war&quot; -remoteUI &quot;${gwt_remote_ui_server_port}:${unique_id}&quot; -logLevel INFO -codeServerPort 9997 -port 8888 forplay.sample.hello.HelloGame"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="killhudson"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Xmx512m"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-javaagent:/home/pyricau/bin/eclipse/plugins/com.google.appengine.eclipse.sdkbundle_1.4.3.v201103311225/appengine-java-sdk-1.4.3/lib/agent/appengine-agent.jar -Xmx512m"/>
 </launchConfiguration>
