@@ -16,10 +16,10 @@
 package forplay.sample.hello.core;
 
 import static forplay.core.ForPlay.*;
+import forplay.core.ForPlay;
 import forplay.core.GroupLayer;
 import forplay.core.Image;
 import forplay.core.ImageLayer;
-import forplay.core.ResourceCallback;
 
 public class Hudson {
 
@@ -27,31 +27,86 @@ public class Hudson {
     private ImageLayer layer;
     private float angle;
 
-    public Hudson(final GroupLayer peaLayer, final float x, final float y) {
+    private final long createdAt = System.currentTimeMillis();
+
+    private double disappearingAt;
+
+    private double killedAt;
+
+    private State state = State.CREATED;
+    private final int timeToLive;
+    private final int timeToDisappear;
+
+    private final HelloGame game;
+
+    private Box box;
+
+    enum State {
+        CREATED, DISAPPEARING, KILLED;
+    }
+
+    public Hudson(final HelloGame game, final float x, final float y, int timeToLive) {
+
+        this.game = game;
+        this.timeToLive = (int) (0.6 * timeToLive);
+        this.timeToDisappear = (int) (0.4 * timeToLive);
+
         Image image = assetManager().getImage(IMAGE);
         layer = graphics().createImageLayer(image);
 
-        // Add a callback for when the image loads.
-        // This is necessary because we can't use the width/height (to center
-        // the
-        // image) until after the image has been loaded
-        image.addCallback(new ResourceCallback<Image>() {
-            @Override
-            public void done(Image image) {
-                layer.setOrigin(image.width() / 2f, image.height() / 2f);
-                layer.setTranslation(x, y);
-                peaLayer.add(layer);
-            }
+        box = new Box(x - image.width() / 2f, y - image.height() / 2f, image.width(), image.height());
 
-            @Override
-            public void error(Throwable err) {
-                log().error("Error loading image!", err);
-            }
-        });
+        layer.setOrigin(image.width() / 2f, image.height() / 2f);
+        layer.setTranslation(x, y);
+        game.hudsonLayer.add(layer);
+    }
+
+    public boolean killed(float x, final float y) {
+        if (state != State.KILLED && box.contains(x, y)) {
+            state = State.KILLED;
+            killedAt = ForPlay.currentTime();
+            return true;
+        }
+        return false;
+    }
+
+    public void removeFromLayer(GroupLayer hudsonLayer) {
+        hudsonLayer.remove(layer);
     }
 
     public void update(float delta) {
-//        angle += delta;
-//        layer.setRotation(angle);
+
+        switch (state) {
+        case CREATED: {
+            if (timeElapsed(createdAt) > timeToLive) {
+                state = State.DISAPPEARING;
+                disappearingAt = ForPlay.currentTime();
+            } else {
+                break;
+            }
+        }
+        case DISAPPEARING: {
+            if (timeElapsed(disappearingAt) > timeToDisappear) {
+                game.hudsonMissed(this);
+            } else {
+                angle += delta;
+                layer.setRotation(angle);
+            }
+            break;
+        }
+        case KILLED: {
+            double timeElapsed = timeElapsed(killedAt);
+            if (timeElapsed > 500) {
+                game.hudsonRemove(this);
+            } else {
+                layer.setScale((float) (1. - timeElapsed / 500.));
+            }
+            break;
+        }
+        }
+    }
+
+    private double timeElapsed(double since) {
+        return ForPlay.currentTime() - since;
     }
 }
